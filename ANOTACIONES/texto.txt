@@ -2,3 +2,49 @@
             <button id="ticketList">Lista de tickets</button>
             <ul id="tickets"></ul>
         </div>
+
+
+
+
+         function saveTicket(ticket) {
+        let tickets = getTicketsFromStorage();
+        tickets.push(ticket);
+        localStorage.setItem('tickets', JSON.stringify(tickets));
+        loadTickets();
+
+        ticketBD = {}
+        ticketBD.Personal = "fdsaf"
+        ticketBD.Usuario = ticket.title
+        ticketBD.Problema = "safsa"
+
+        try{   
+            respuesta = fetch('http://localhost:3000/Tickets/nuevo', {  // REEMPLAZAR ACA POR LA RUTA CORRESPONDIENTE
+                
+                method: 'POST', //metodo HTTP -- REEMPLAZAR POR EL METODO CORRESPONDIENTE
+                headers: {   //aca decimos que devuelve un JSON
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                //mode: 'no-cors',
+                body: JSON.stringify(ticketBD)     //Acá van los datos del registro    
+            })
+            .then(response => {
+                codigoResp = response.status;
+                console.log("Respuesta de petición: "+response.status);
+    
+                //recargamos la pagina
+                if(codigoResp >= 200 && codigoResp < 300){
+                alert("Ticket hecho correctamente");
+                console.log("Recargando pagina...")
+                location.reload();
+                }
+            });
+        }
+        catch (error){
+            //hubo un error
+            console.log("Error en registro: " + error);
+        }
+    
+    
+    
+    }
